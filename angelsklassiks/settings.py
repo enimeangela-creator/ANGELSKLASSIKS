@@ -24,9 +24,9 @@ SECRET_KEY = 'django-insecure-k*p$1kl&kk-bdyy##862c+u=0*gpn@5-to0evhzt$8_!f6=835
 PAYSTACK_SECRET_KEY = 'sk_test_80cd6feeb334881bddf7e09b0660ba22498f7d30'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['https://angelsklassiks.onrender.com/']
+ALLOWED_HOSTS = ['angelsklassiks.onrender.com']
 
 
 # Application definition
