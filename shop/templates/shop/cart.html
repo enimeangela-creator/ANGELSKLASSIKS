@@ -1,0 +1,263 @@
+{% extends 'shop/base.html' %}
+
+
+{% block title %}
+Shopping Cart | Angel's Klassiks
+{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+.cart-page {
+    padding: 60px 0;
+}
+
+.cart-page h1 {
+    margin-bottom: 30px;
+}
+
+.cart-item {
+
+    display: grid;
+
+    grid-template-columns:
+        100px 1fr auto auto;
+
+    gap: 25px;
+
+    align-items: center;
+
+    border-bottom:
+        1px solid #eee;
+
+    padding: 20px 0;
+}
+
+.cart-image {
+
+    width: 100px;
+
+    height: 110px;
+
+    object-fit: cover;
+
+    border-radius: 5px;
+}
+
+.quantity-input {
+
+    width: 65px;
+
+    padding: 9px;
+
+    border: 1px solid #ddd;
+
+    text-align: center;
+}
+
+.small-button {
+
+    border: none;
+
+    padding: 9px 12px;
+
+    cursor: pointer;
+
+    background: #111;
+
+    color: white;
+
+    margin-left: 5px;
+}
+
+.remove-button {
+
+    border: none;
+
+    background: none;
+
+    color: #c90000;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.cart-total {
+
+    margin-top: 35px;
+
+    background: #f8f8f8;
+
+    padding: 30px;
+
+    text-align: right;
+}
+
+.cart-total h2 {
+
+    font-size: 28px;
+
+    margin-bottom: 15px;
+}
+
+@media(max-width: 700px) {
+
+    .cart-item {
+
+        grid-template-columns:
+            80px 1fr;
+
+    }
+
+}
+
+</style>
+
+
+<section class="cart-page">
+
+<div class="container">
+
+    <h1>
+        Your Shopping Cart
+    </h1>
+
+
+    {% for item in cart_items %}
+
+        <div class="cart-item">
+
+            <img
+                class="cart-image"
+                src="{{ item.product.image.url }}"
+                alt="{{ item.product.name }}"
+            >
+
+
+            <div>
+
+                <h3>
+                    {{ item.product.name }}
+                </h3>
+
+                <p>
+                    ₦{{ item.product.price }}
+                </p>
+
+            </div>
+
+
+            <form
+                method="post"
+                action="{% url 'update_cart' item.id %}"
+            >
+
+                {% csrf_token %}
+
+                <input
+                    type="number"
+                    name="quantity"
+                    class="quantity-input"
+                    min="1"
+                    max="{{ item.product.stock }}"
+                    value="{{ item.quantity }}"
+                >
+
+                <button
+                    class="small-button"
+                    type="submit"
+                >
+                    Update
+                </button>
+
+            </form>
+
+
+            <div>
+
+                <strong>
+                    ₦{{ item.subtotal }}
+                </strong>
+
+                <form
+                    method="post"
+                    action="{% url 'remove_from_cart' item.id %}"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="remove-button"
+                    >
+                        Remove
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+    {% empty %}
+
+
+        <div style="
+            text-align:center;
+            padding:70px 0;
+        ">
+
+            <h2>
+                Your cart is empty.
+            </h2>
+
+            <br>
+
+            <a
+                href="{% url 'home' %}"
+                class="btn"
+            >
+                Continue Shopping
+            </a>
+
+        </div>
+
+
+    {% endfor %}
+
+
+    {% if cart_items %}
+
+    <div class="cart-total">
+
+        <p>
+            Order Total
+        </p>
+
+        <h2>
+            ₦{{ total }}
+        </h2>
+
+        <a
+            href="{% url 'checkout' %}"
+            class="btn"
+        >
+            Proceed To Checkout
+        </a>
+
+    </div>
+
+    {% endif %}
+
+
+</div>
+
+</section>
+
+
+{% endblock %}

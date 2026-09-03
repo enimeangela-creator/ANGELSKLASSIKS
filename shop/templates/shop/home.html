@@ -1,0 +1,304 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Angel's Klassiks | Bags & Shoes
+{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+.hero {
+    min-height: 520px;
+
+    background:
+        linear-gradient(
+            110deg,
+            #9f0000,
+            #df0000
+        );
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    width: 92%;
+    max-width: 1300px;
+    margin: auto;
+}
+
+.hero-text {
+    max-width: 680px;
+}
+
+.hero-small {
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.hero h1 {
+    font-size: clamp(
+        45px,
+        7vw,
+        85px
+    );
+
+    line-height: 1;
+    margin: 20px 0;
+}
+
+.hero p {
+    max-width: 560px;
+    font-size: 17px;
+    opacity: .9;
+    margin-bottom: 30px;
+}
+
+.hero .btn {
+    background: white;
+    color: #c90000;
+}
+
+.hero .btn:hover {
+    background: #111;
+    color: white;
+}
+
+.search-area {
+    padding: 30px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.search-form {
+    max-width: 650px;
+    margin: auto;
+    display: flex;
+}
+
+.search-form input {
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 14px;
+    outline: none;
+}
+
+.search-form button {
+    border-radius: 0;
+}
+
+.category-buttons {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.category-button {
+    border: 1px solid #ddd;
+    padding: 9px 20px;
+    border-radius: 100px;
+    font-size: 13px;
+}
+
+.category-button:hover {
+    border-color: #c90000;
+    color: #c90000;
+}
+
+</style>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-text">
+
+            <div class="hero-small">
+                Angel's Klassiks
+            </div>
+
+            <h1>
+                Step Into
+                Your Style.
+            </h1>
+
+            <p>
+                Discover fashion-forward bags and shoes
+                carefully selected to elevate your everyday
+                style.
+            </p>
+
+            <a
+                href="#shop"
+                class="btn"
+            >
+                Shop Collection
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="search-area">
+
+    <div class="container">
+
+        <form
+            action="{% url 'home' %}"
+            method="get"
+            class="search-form"
+        >
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search bags and shoes..."
+            >
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Search
+            </button>
+
+        </form>
+
+
+        <div class="category-buttons">
+
+            <a
+                href="{% url 'home' %}"
+                class="category-button"
+            >
+                All
+            </a>
+
+            <a
+                href="{% url 'home' %}?category=bag"
+                class="category-button"
+            >
+                Bags
+            </a>
+
+            <a
+                href="{% url 'home' %}?category=shoe"
+                class="category-button"
+            >
+                Shoes
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section
+    class="section"
+    id="shop"
+>
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <small>
+                Shop Angel's Klassiks
+            </small>
+
+            <h2>
+                Our Collection
+            </h2>
+
+        </div>
+
+
+        <div class="product-grid">
+
+            {% for product in products %}
+
+                <article class="product-card">
+
+                    <a
+                        href="{% url 'product_detail' product.slug %}"
+                    >
+
+                        <div class="product-image">
+
+                            <img
+                                src="{{ product.image.url }}"
+                                alt="{{ product.name }}"
+                            >
+
+                            {% if product.featured %}
+
+                                <span class="product-badge">
+                                    Featured
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="product-info">
+
+                            <span class="category-name">
+
+                                {{ product.category }}
+
+                            </span>
+
+                            <h3>
+                                {{ product.name }}
+                            </h3>
+
+                            <div class="price">
+
+                                ₦{{ product.price }}
+
+                                {% if product.old_price %}
+
+                                <span class="old-price">
+                                    ₦{{ product.old_price }}
+                                </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </article>
+
+            {% empty %}
+
+                <p>
+                    No products have been added yet.
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+{% endblock %}

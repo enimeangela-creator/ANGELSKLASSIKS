@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+        Angel's Klassiks
+        {% endblock %}
+    </title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #c90000;
+            --dark-red: #970000;
+            --white: #ffffff;
+            --black: #111111;
+            --grey: #666666;
+            --light-grey: #f6f6f6;
+            --border: #e6e6e6;
+        }
+
+        body {
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+        }
+
+        /* ========================
+        TOP BAR
+        ======================== */
+
+        .top-bar {
+            background: var(--red);
+            color: white;
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 13px;
+        }
+
+        /* ========================
+        NAVIGATION
+        ======================== */
+
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            width: 92%;
+            max-width: 1300px;
+            margin: auto;
+
+            min-height: 80px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            color: var(--red);
+        }
+
+        .logo span {
+            display: block;
+            color: #555;
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: -5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--red);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .account-btn {
+            padding: 10px 17px;
+            border-radius: 5px;
+            border: 1px solid var(--red);
+            font-size: 13px;
+        }
+
+        .red-btn {
+            background: var(--red);
+            color: white;
+        }
+
+        .red-btn:hover {
+            background: var(--dark-red);
+        }
+
+        .logout-form {
+            display: inline;
+        }
+
+        .logout-button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* ========================
+        GENERAL
+        ======================== */
+
+        .container {
+            width: 92%;
+            max-width: 1300px;
+            margin: auto;
+        }
+
+        .section {
+            padding: 65px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title small {
+            color: var(--red);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .section-title h2 {
+            font-size: 34px;
+            margin-top: 6px;
+        }
+
+        /* ========================
+        PRODUCT CARDS
+        ======================== */
+
+        .product-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            border-radius: 8px;
+            transition: .3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(0,0,0,.08);
+        }
+
+        .product-image {
+            position: relative;
+            height: 330px;
+            overflow: hidden;
+            background: #f6f6f6;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .5s;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+
+            background: var(--red);
+            color: white;
+
+            padding: 5px 10px;
+            font-size: 11px;
+            border-radius: 3px;
+        }
+
+        .product-info {
+            padding: 18px;
+        }
+
+        .category-name {
+            color: var(--grey);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .product-info h3 {
+            margin: 5px 0;
+            font-size: 17px;
+        }
+
+        .price {
+            color: var(--red);
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .old-price {
+            color: #999;
+            font-weight: normal;
+            font-size: 14px;
+            text-decoration: line-through;
+            margin-left: 7px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 13px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: .3s;
+        }
+
+        .btn:hover {
+            background: var(--dark-red);
+        }
+
+        /* ========================
+        FORMS
+        ======================== */
+
+        .form-card {
+            width: 92%;
+            max-width: 600px;
+            margin: 60px auto;
+
+            border: 1px solid var(--border);
+
+            padding: 35px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(0,0,0,.05);
+        }
+
+        .form-card h1 {
+            margin-bottom: 8px;
+        }
+
+        .form-card .subtitle {
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-card label {
+            font-size: 13px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .form-card input,
+        .form-card textarea,
+        .form-card select {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border:
+                1px solid #d5d5d5;
+
+            border-radius: 4px;
+
+            outline: none;
+
+            transition: .3s;
+        }
+
+        .form-card input:focus,
+        .form-card textarea:focus {
+            border-color: var(--red);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(201,0,0,.07);
+        }
+
+        .form-card button {
+            width: 100%;
+        }
+
+        .helptext {
+            display: block;
+            color: #777;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .errorlist {
+            color: #c90000;
+            font-size: 12px;
+            list-style: none;
+            margin: 5px 0;
+        }
+
+        /* ========================
+        MESSAGES
+        ======================== */
+
+        .messages {
+            width: 92%;
+            max-width: 1300px;
+            margin: 15px auto;
+        }
+
+        .message {
+            padding: 13px 18px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background: #fff1f1;
+            border-left: 4px solid var(--red);
+        }
+
+        /* ========================
+        FOOTER
+        ======================== */
+
+        footer {
+            margin-top: 70px;
+            background: #111;
+            color: white;
+            padding: 55px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 50px;
+        }
+
+        footer h3 {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        footer p,
+        footer a {
+            color: #bbb;
+            font-size: 14px;
+        }
+
+        footer a {
+            display: block;
+            margin: 8px 0;
+        }
+
+        .copyright {
+            border-top: 1px solid #333;
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* ========================
+        RESPONSIVE
+        ======================== */
+
+        .menu-button {
+            display: none;
+            border: none;
+            background: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        @media(max-width: 1000px) {
+
+            .product-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+        }
+
+        @media(max-width: 750px) {
+
+            .product-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-actions .account-btn {
+                display: none;
+            }
+
+        }
+
+        @media(max-width: 500px) {
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                height: 400px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="top-bar">
+
+    FREE DELIVERY ON SELECTED ORDERS
+
+    &nbsp; • &nbsp;
+
+    ANGEL'S KLASSIKS —
+    YOUR SUREST FASHION PLUG
+
+</div>
+
+
+<nav>
+
+    <div class="nav-container">
+
+        <a href="{% url 'home' %}" class="logo">
+
+            ANGEL'S KLASSIKS
+
+            <span>Your Surest Fashion Plug</span>
+
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'home' %}?category=bag">
+                Bags
+            </a>
+
+            <a href="{% url 'home' %}?category=shoe">
+                Shoes
+            </a>
+
+        </div>
+
+
+        <div class="nav-actions">
+
+            {% if user.is_authenticated %}
+
+                <span>
+                    Hi, {{ user.first_name|default:user.username }}
+                </span>
+
+                <a
+                    href="{% url 'cart' %}"
+                    class="account-btn red-btn"
+                >
+                    Cart
+                </a>
+
+                <form
+                    method="post"
+                    action="{% url 'logout' %}"
+                    class="logout-form"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="logout-button"
+                    >
+                        Logout
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <a
+                    href="{% url 'login' %}"
+                    class="account-btn"
+                >
+                    Login
+                </a>
+
+                <a
+                    href="{% url 'register' %}"
+                    class="account-btn red-btn"
+                >
+                    Create Account
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+{% if messages %}
+
+<div class="messages">
+
+    {% for message in messages %}
+
+        <div class="message">
+            {{ message }}
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+
+<main>
+
+    {% block content %}
+
+    {% endblock %}
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+
+                <h3>
+                    Angel's Klassiks
+                </h3>
+
+                <p>
+                    Your surest fashion plug for stylish
+                    bags and shoes designed to complete
+                    every look.
+                </p>
+
+            </div>
+
+            <div>
+
+                <h3>Shop</h3>
+
+                <a href="{% url 'home' %}?category=bag">
+                    Bags
+                </a>
+
+                <a href="{% url 'home' %}?category=shoe">
+                    Shoes
+                </a>
+
+                <a href="{% url 'cart' %}">
+                    My Cart
+                </a>
+
+            </div>
+
+            <div>
+
+                <h3>Account</h3>
+
+                {% if user.is_authenticated %}
+
+                    <a href="{% url 'cart' %}">
+                        Shopping Cart
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+
+                    <a href="{% url 'register' %}">
+                        Create Account
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+
+            © <span id="year"></span>
+            Angel's Klassiks.
+            All rights reserved.
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+    /*
+    ==========================================
+    AUTOMATIC COPYRIGHT YEAR
+    ==========================================
+    */
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+
+    /*
+    ==========================================
+    AUTO-HIDE MESSAGES
+    ==========================================
+    */
+
+    const messages =
+        document.querySelectorAll(".message");
+
+    messages.forEach(function(message) {
+
+        setTimeout(function() {
+
+            message.style.transition = "0.5s";
+
+            message.style.opacity = "0";
+
+            setTimeout(function() {
+                message.remove();
+            }, 500);
+
+        }, 4000);
+
+    });
+
+
+    /*
+    ==========================================
+    PRODUCT BUTTON ANIMATION
+    ==========================================
+    */
+
+    const buttons =
+        document.querySelectorAll(".btn");
+
+    buttons.forEach(function(button) {
+
+        button.addEventListener(
+            "mousedown",
+            function() {
+
+                this.style.transform =
+                    "scale(0.97)";
+
+            }
+        );
+
+        button.addEventListener(
+            "mouseup",
+            function() {
+
+                this.style.transform =
+                    "scale(1)";
+
+            }
+        );
+
+    });
+
+</script>
+
+
+</body>
+
+</html>

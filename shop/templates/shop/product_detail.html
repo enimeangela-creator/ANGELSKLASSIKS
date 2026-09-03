@@ -1,0 +1,256 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+{{ product.name }} | Angel's Klassiks
+{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+.product-detail {
+    padding: 60px 0;
+}
+
+.product-detail-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 60px;
+
+    align-items: start;
+}
+
+.detail-image {
+
+    background: #f7f7f7;
+
+    height: 600px;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.detail-image img {
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.detail-content {
+    padding-top: 20px;
+}
+
+.detail-category {
+
+    color: #c90000;
+
+    text-transform: uppercase;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    font-size: 12px;
+}
+
+.detail-content h1 {
+
+    font-size: 42px;
+
+    line-height: 1.1;
+
+    margin: 15px 0;
+}
+
+.detail-price {
+
+    font-size: 28px;
+
+    color: #c90000;
+
+    font-weight: bold;
+
+    margin-bottom: 25px;
+}
+
+.description {
+
+    color: #555;
+
+    margin: 25px 0;
+
+    line-height: 1.8;
+}
+
+.stock {
+
+    font-size: 13px;
+
+    margin: 20px 0;
+}
+
+.in-stock {
+    color: green;
+}
+
+.out-stock {
+    color: #c90000;
+}
+
+
+@media(max-width: 750px) {
+
+    .product-detail-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .detail-image {
+        height: 450px;
+    }
+
+}
+
+</style>
+
+
+<section class="product-detail">
+
+<div class="container">
+
+    <div class="product-detail-grid">
+
+
+        <div class="detail-image">
+
+            <img
+                src="{{ product.image.url }}"
+                alt="{{ product.name }}"
+            >
+
+        </div>
+
+
+        <div class="detail-content">
+
+            <span class="detail-category">
+
+                {{ product.category }}
+
+            </span>
+
+
+            <h1>
+                {{ product.name }}
+            </h1>
+
+
+            <div class="detail-price">
+
+                ₦{{ product.price }}
+
+                {% if product.old_price %}
+
+                    <span class="old-price">
+
+                        ₦{{ product.old_price }}
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="description">
+
+                {{ product.description|linebreaks }}
+
+            </div>
+
+
+            {% if product.stock > 0 %}
+
+                <p class="stock in-stock">
+
+                    ✓ In Stock —
+                    {{ product.stock }}
+                    available
+
+                </p>
+
+            {% else %}
+
+                <p class="stock out-stock">
+
+                    Out of Stock
+
+                </p>
+
+            {% endif %}
+
+
+            {% if user.is_authenticated %}
+
+                {% if product.stock > 0 %}
+
+                <form
+                    method="post"
+                    action="{% url 'add_to_cart' product.id %}"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        class="btn"
+                        type="submit"
+                    >
+                        Add To Cart
+                    </button>
+
+                </form>
+
+                {% endif %}
+
+            {% else %}
+
+                <p style="
+                    margin-bottom:15px;
+                    color:#666;
+                ">
+
+                    You need an account before
+                    you can purchase products.
+
+                </p>
+
+                <a
+                    href="{% url 'login' %}?next={{ request.path }}"
+                    class="btn"
+                >
+                    Login To Order
+                </a>
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+{% endblock %}

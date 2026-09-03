@@ -1,0 +1,83 @@
+{% extends 'shop/base.html' %}
+
+
+{% block title %}
+Create Account | Angel's Klassiks
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="form-card">
+
+    <h1>Create Account</h1>
+
+    <p class="subtitle">
+        Join Angel's Klassiks and start shopping.
+    </p>
+
+
+    <form method="post">
+
+        {% csrf_token %}
+
+
+        {% for field in form %}
+
+        <div class="form-group">
+
+            {{ field.label_tag }}
+
+            {{ field }}
+
+            {% if field.help_text %}
+
+                <span class="helptext">
+
+                    {{ field.help_text }}
+
+                </span>
+
+            {% endif %}
+
+            {{ field.errors }}
+
+        </div>
+
+        {% endfor %}
+
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Create Account
+        </button>
+
+    </form>
+
+
+    <p style="
+        text-align:center;
+        margin-top:20px;
+    ">
+
+        Already have an account?
+
+        <a
+            href="{% url 'login' %}"
+            style="
+                color:#c90000;
+                font-weight:bold;
+            "
+        >
+            Login
+        </a>
+
+    </p>
+
+</div>
+
+
+{% endblock %}

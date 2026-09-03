@@ -1,0 +1,256 @@
+{% extends 'shop/base.html' %}
+
+
+{% block title %}
+Checkout | Angel's Klassiks
+{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+.checkout {
+
+    width: 92%;
+
+    max-width: 1100px;
+
+    margin: 60px auto;
+
+    display: grid;
+
+    grid-template-columns:
+        1.3fr .7fr;
+
+    gap: 50px;
+}
+
+.checkout-form {
+
+    padding: 30px;
+
+    border:
+        1px solid #eee;
+
+    border-radius: 8px;
+}
+
+.checkout-form input,
+.checkout-form textarea {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border:
+        1px solid #ddd;
+
+    border-radius: 4px;
+
+    margin-bottom: 15px;
+
+    outline: none;
+}
+
+.checkout-form input:focus,
+.checkout-form textarea:focus {
+
+    border-color:
+        #c90000;
+}
+
+.checkout-summary {
+
+    background:
+        #f8f8f8;
+
+    padding: 30px;
+
+    height: fit-content;
+}
+
+.summary-item {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    gap: 20px;
+
+    border-bottom:
+        1px solid #ddd;
+
+    padding: 14px 0;
+}
+
+.total-line {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    margin:
+        25px 0;
+}
+
+@media(max-width: 800px) {
+
+    .checkout {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+</style>
+
+
+<div class="checkout">
+
+
+    <div class="checkout-form">
+
+        <h1>
+            Delivery Information
+        </h1>
+
+        <p style="
+            color:#777;
+            margin-bottom:25px;
+        ">
+
+            Enter the information we need
+            to deliver your order.
+
+        </p>
+
+
+        <form
+            method="post"
+            id="checkoutForm"
+        >
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+
+            {% for field in form %}
+
+                <label
+                    style="
+                        font-weight:bold;
+                        font-size:13px;
+                    "
+                >
+
+                    {{ field.label }}
+
+                </label>
+
+                {{ field }}
+
+                {{ field.errors }}
+
+            {% endfor %}
+
+
+            <button
+    type="submit"
+    class="btn"
+    id="orderButton"
+    style="width:100%;"
+>
+    Pay Now
+</button>
+
+        </form>
+
+    </div>
+
+
+    <aside class="checkout-summary">
+
+        <h2>
+            Order Summary
+        </h2>
+
+
+        {% for item in cart_items %}
+
+            <div class="summary-item">
+
+                <span>
+
+                    {{ item.product.name }}
+
+                    {{ item.quantity }}
+
+                </span>
+
+                <strong>
+
+                    ₦{{ item.subtotal }}
+
+                </strong>
+
+            </div>
+
+        {% endfor %}
+
+
+        <div class="total-line">
+
+            <span>Total</span>
+
+            <span>
+                ₦{{ total }}
+            </span>
+
+        </div>
+
+    </aside>
+
+
+</div>
+
+
+<script>
+
+const checkoutForm =
+    document.getElementById(
+        "checkoutForm"
+    );
+
+const orderButton =
+    document.getElementById(
+        "orderButton"
+    );
+
+
+checkoutForm.addEventListener(
+    "submit",
+    function() {
+
+        orderButton.innerText =
+    "Connecting to Payment...";
+
+        orderButton.disabled = true;
+
+    }
+);
+
+</script>
+
+
+{% endblock %}

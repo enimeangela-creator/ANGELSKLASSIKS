@@ -1,0 +1,106 @@
+{% extends 'shop/base.html' %}
+
+
+{% block title %}
+Order Successful | Angel's Klassiks
+{% endblock %}
+
+
+{% block content %}
+
+
+<div style="
+    width:92%;
+    max-width:650px;
+    margin:80px auto;
+    text-align:center;
+    padding:50px;
+    border:1px solid #eee;
+    border-radius:10px;
+">
+
+    <div style="
+        width:80px;
+        height:80px;
+        border-radius:50%;
+        background:#c90000;
+        color:white;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        margin:0 auto 25px;
+        font-size:35px;
+    ">
+        ✓
+    </div>
+
+
+    <h1>
+        Order Received!
+    </h1>
+
+
+    <p style="
+        color:#666;
+        margin:15px 0;
+    ">
+
+        Thank you,
+        {{ order.full_name }}.
+
+        Your order has been received
+        by Angel's Klassiks.
+
+    </p>
+
+
+    <p>
+
+        Order Number:
+
+        <strong>
+            #AK{{ order.id }}
+        </strong>
+
+    </p>
+
+
+    <p>
+
+        Total:
+
+        <strong style="color:#c90000;">
+
+            ₦{{ order.total_amount }}
+
+        </strong>
+
+    </p>
+
+
+    <p style="
+        margin-top:15px;
+        color:#666;
+    ">
+
+        We will process your order
+        using the delivery information
+        you provided.
+
+    </p>
+
+
+    <br>
+
+
+    <a
+        href="{% url 'home' %}"
+        class="btn"
+    >
+        Continue Shopping
+    </a>
+
+</div>
+
+
+{% endblock %}
