@@ -26,7 +26,7 @@ PAYSTACK_SECRET_KEY = 'sk_test_80cd6feeb334881bddf7e09b0660ba22498f7d30'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://angelsklassiks.onrender.com/']
 
 
 # Application definition
