@@ -46,9 +46,9 @@ INSTALLED_APPS = [
     'shop'
 ]
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+    'CLOUD_NAME': os.environ.get('bwxxqfdq'),
+    'API_KEY': os.environ.get('524198446743668'),
+    'API_SECRET': os.environ.get('XVNNZceUSAh6Rv9MCerciaLzchQ'),
 }
 
 STORAGES = {
@@ -146,3 +146,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
