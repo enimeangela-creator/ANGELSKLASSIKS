@@ -10,7 +10,6 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,15 +19,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k*p$1kl&kk-bdyy##862c+u=0*gpn@5-to0evhzt$8_!f6=835'
-PAYSTACK_SECRET_KEY = 'sk_test_80cd6feeb334881bddf7e09b0660ba22498f7d30'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-k*p$1kl&kk-bdyy##862c+u=0*gpn@5-to0evhzt$8_!f6=835')
+PAYSTACK_SECRET_KEY = os.environ.get('PAYSTACK_SECRET_KEY', 'sk_test_80cd6feeb334881bddf7e09b0660ba22498f7d30')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
+hosts = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,.onrender.com')
 ALLOWED_HOSTS = ['angelsklassiks.onrender.com']
-
 
 # Application definition
 
@@ -46,9 +47,9 @@ INSTALLED_APPS = [
     'shop'
 ]
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('bwxxqfdq'),
-    'API_KEY': os.environ.get('524198446743668'),
-    'API_SECRET': os.environ.get('XVNNZceUSAh6Rv9MCerciaLzchQ'),
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
+    'API_KEY': os.environ.get('API_KEY'),
+    'API_SECRET': os.environ.get('API_SECRET'),
 }
 
 STORAGES = {
@@ -62,6 +63,7 @@ STORAGES = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -146,5 +148,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
