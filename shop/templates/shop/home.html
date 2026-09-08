@@ -239,7 +239,7 @@ Angel's Klassiks | Bags & Shoes
                         <div class="product-image">
 
                             <img
-                                src="{{ product.image.url }}"
+                                src="{% if product.image %}{{ product.image.url }}{% else %}https://placehold.co/800x800/f3f3f3/333?text=No+Image{% endif %}"
                                 alt="{{ product.name }}"
                             >
 

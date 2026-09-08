@@ -133,7 +133,7 @@ Shopping Cart | Angel's Klassiks
 
             <img
                 class="cart-image"
-                src="{{ item.product.image.url }}"
+                src="{% if item.product.image %}{{ item.product.image.url }}{% else %}https://placehold.co/800x800/f3f3f3/333?text=No+Image{% endif %}"
                 alt="{{ item.product.name }}"
             >
 

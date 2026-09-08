@@ -28,8 +28,8 @@ PAYSTACK_SECRET_KEY = os.environ.get('PAYSTACK_SECRET_KEY', 'sk_test_80cd6feeb33
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-hosts = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,.onrender.com')
-ALLOWED_HOSTS = ['angelsklassiks.onrender.com']
+hosts = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,.onrender.com,angelsklassiks.onrender.com')
+ALLOWED_HOSTS = [host.strip() for host in hosts.split(',') if host.strip()]
 
 # Application definition
 
@@ -46,20 +46,41 @@ INSTALLED_APPS = [
 
     'shop'
 ]
+CLOUD_NAME = os.environ.get('CLOUD_NAME')
+API_KEY = os.environ.get('API_KEY')
+API_SECRET = os.environ.get('API_SECRET')
+
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
-    'API_KEY': os.environ.get('API_KEY'),
-    'API_SECRET': os.environ.get('API_SECRET'),
+    'CLOUD_NAME': CLOUD_NAME,
+    'API_KEY': API_KEY,
+    'API_SECRET': API_SECRET,
 }
 
-STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+HAS_CLOUDINARY = all([CLOUD_NAME, API_KEY, API_SECRET])
+
+if HAS_CLOUDINARY:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    STORAGES = {
+        "default": {
+            "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+else:
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
