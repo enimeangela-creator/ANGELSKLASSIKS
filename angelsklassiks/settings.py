@@ -46,9 +46,9 @@ INSTALLED_APPS = [
 
     'shop'
 ]
-CLOUD_NAME = os.environ.get('CLOUD_NAME')
-API_KEY = os.environ.get('API_KEY')
-API_SECRET = os.environ.get('API_SECRET')
+CLOUD_NAME = os.environ.get('bwxxqfdq')
+API_KEY = os.environ.get('524198446743668')
+API_SECRET = os.environ.get('XVNNZceUSAh6Rv9MCerciaLzchQ')
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': CLOUD_NAME,
